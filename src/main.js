@@ -9,7 +9,11 @@ import App from './App.vue'
 
 Vue.config.productionTip = false
 
+// 导入elementUi文件
 import '@/plugins/element.js'
+
+// 导入全局配置的axios文件
+import '@/utils/request.js'
 
 // import router from '@/router/index.js'
 // 只要该文件夹里面的子文件名是 index.xxx 形式的，可以省略不写
