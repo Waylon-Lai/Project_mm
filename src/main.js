@@ -9,6 +9,8 @@ import App from './App.vue'
 
 Vue.config.productionTip = false
 
+import '@/plugins/element.js'
+
 // import router from '@/router/index.js'
 // 只要该文件夹里面的子文件名是 index.xxx 形式的，可以省略不写
 import router from '@/router'

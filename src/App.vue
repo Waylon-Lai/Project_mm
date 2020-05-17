@@ -10,7 +10,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 @import url("./styles/base.less");
 /* @import url("~@/styles/base.less"); */
 /* @import "./styles/base.less"; */
