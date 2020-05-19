@@ -12,6 +12,7 @@
         <el-form-item prop="phone">
           <el-input v-model="loginForm.phone" prefix-icon="el-icon-user" placeholder="请输入手机号"></el-input>
         </el-form-item>
+
         <el-form-item prop="password">
           <el-input
             v-model="loginForm.password"
@@ -31,7 +32,7 @@
           </el-row>
         </el-form-item>
         <el-form-item prop="isChecked">
-          <el-checkbox v-model="loginForm.isChecked"></el-checkbox>我已阅读并同意
+          <el-checkbox v-model="loginForm.isChecked"></el-checkbox>&nbsp;我已阅读并同意
           <el-link type="primary" href="https:/www.baidu.com">用户协议</el-link>&nbsp;和&nbsp;
           <el-link type="primary">隐私条款</el-link>
         </el-form-item>
@@ -39,23 +40,35 @@
           <el-button style="width:100%;" @click="loginClick" type="primary">登录</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button style="width:100%;" type="primary">注册</el-button>
+          <el-button style="width:100%;" @click="register" type="primary">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="right">
       <img src="@/assets/login_bg.png" alt />
     </div>
+    <!-- 使用register子组件 -->
+    <!-- 1.通过ref属性方式进行父传子传值 -->
+    <register ref="registerRef"></register>
+    <!-- 1.通过props方式进行父传子传值 -->
+    <!-- <register :isShow="isShow"></register> -->
   </div>
 </template>
 
 <script>
 // 按需导入 操作token的方法
 import { setToken } from "@/utils/token.js";
+// 导入register子组件
+import register from "./register";
 export default {
   name: "Login",
+  components: {
+    // 注册register子组件
+    register
+  },
   data() {
     return {
+      // isShow: false,
       codeURL: process.env.VUE_APP_BASEURL + "/captcha?type=login",
       // 表单模型对象
       loginForm: {
@@ -75,7 +88,10 @@ export default {
             validator: (rule, value, callback) => {
               // console.log("value is" + value);
               if (!value) {
-                return callback(new Error("手机号不能为空"));
+                //return callback(new Error("手机号不能为空"));
+                //这里的return并不是要返回内容，只是纯粹的终止函数  也可以写成这种形式：
+                callback(new Error("手机号不能为空"));
+                return;
               }
               // 手机号的正则表达式
               const reg = /^1[3456789][0-9]{9}$/;
@@ -122,6 +138,7 @@ export default {
     };
   },
   methods: {
+    // 刷新验证码
     refleshCode() {
       // 由于是get方式发送的请求 并且存在缓存  所以要让每次发送请求的url接口地址都不一样才能更换验证码
       this.codeURL =
@@ -132,7 +149,7 @@ export default {
     // 登录功能
     loginClick() {
       // 要实现点击登录 拿到form数据，然后调用它的 validate 方法，来校验哪些还没有通过校验
-      // 需要先给 el-form 设置ref属性  再调用方法
+      // 需要先给 el-form标签 设置ref属性  获取到该标签 再调用方法
       //--------------------平时的写法-----------------------------------------------
       // this.$refs.loginForm.validate(valid => {
       //   // console.log(valid); //值为true说明全部通过检验了 只要有一项没通过 值就为false
@@ -218,6 +235,11 @@ export default {
       });
 
       //--------------------异步函数的写法-----------------------------------------------
+    },
+    // 注册功能
+    register() {
+      this.$refs.registerRef.dialogVisible = true; //弹出注册会话框
+      // this.isShow = !this.isShow;
     }
   }
 };
