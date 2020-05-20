@@ -9,7 +9,7 @@
       <div class="right">
         <img :src="avatar" alt />
         <span class="name">{{ username }} 欢迎您</span>
-        <el-button type="primary">退出</el-button>
+        <el-button type="primary" @click="logout">退出</el-button>
       </div>
     </el-header>
     <el-container>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-// import { getToken } from "@/utils/token.js";
+import { removeToken } from "@/utils/token.js";
 export default {
   name: "Layout",
   data() {
@@ -70,6 +70,37 @@ export default {
         this.username = res.data.data.username;
         this.avatar = process.env.VUE_APP_BASEURL + "/" + res.data.data.avatar;
       }
+    },
+    // 登出功能
+    logout() {
+      this.$confirm("此操作将会登出当前账号, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          const res = await this.$axios({
+            method: "get",
+            url: "/logout"
+          });
+          // console.log(res);
+          if (res.data.code == 200) {
+            this.$message({
+              type: "success",
+              message: "登出成功!"
+            });
+            // 删除token
+            removeToken();
+            // 跳转到登录页
+            this.$router.push("/login");
+          }
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消登出"
+          });
+        });
     }
   },
   created() {
