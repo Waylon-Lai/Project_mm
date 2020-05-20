@@ -4,16 +4,22 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter);
 
+// 导入路由组件
 import Login from '@/views/login/index.vue'
 // 只要该文件夹里面的子文件名是 index.xxx 形式的，可以省略不写
 // 组件名首字母一般大写
 import Layout from '@/views/layout'
+import Chart from '@/views/layout/chart'
+import Enterprise from '@/views/layout/enterprise'
+import Question from '@/views/layout/question'
+import Subject from '@/views/layout/subject'
+import User from '@/views/layout/user'
 
 let router = new VueRouter({
     routes: [
         {
             // 路由重定向
-            path: '*',
+            path: '/',
             redirect: '/login'
         },
         {
@@ -22,7 +28,17 @@ let router = new VueRouter({
         },
         {
             path: '/layout',
-            component: Layout
+            component: Layout,
+            // 设置 嵌套路由 
+            // 要在嵌套的出口中渲染组件，需要在 VueRouter 的参数中使用 children 配置：
+            // 要注意，以 / 开头的嵌套路径会被当作根路径。所以不需要 /
+            children: [
+                { path: 'chart', component: Chart },
+                { path: 'enterprise', component: Enterprise },
+                { path: 'question', component: Question },
+                { path: 'subject', component: Subject },
+                { path: 'user', component: User },
+            ]
         }
     ]
 });

@@ -14,30 +14,40 @@
     </el-header>
     <el-container>
       <el-aside width="auto" class="aside">
-        <el-menu default-active="3" class="el-menu-vertical-demo" :collapse="isCollapse">
-          <el-menu-item index="1">
+        <!-- router: 是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 -->
+        <el-menu
+          :router="true"
+          default-active="/layout/enterprise"
+          class="el-menu-vertical-demo"
+          :collapse="isCollapse"
+        >
+          <!-- 在 el-menu-item 的index 属性值中设置要跳转的路由 -->
+          <el-menu-item index="/layout/chart">
             <i class="el-icon-pie-chart"></i>
             <span slot="title">数据预览</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="/layout/user">
             <i class="el-icon-user"></i>
             <span slot="title">用户列表</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="/layout/enterprise">
             <i class="el-icon-office-building"></i>
             <span slot="title">企业列表</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="/layout/question">
             <i class="el-icon-edit-outline"></i>
             <span slot="title">题库列表</span>
           </el-menu-item>
-          <el-menu-item index="5">
+          <el-menu-item index="/layout/subject">
             <i class="el-icon-notebook-2"></i>
             <span slot="title">学科列表</span>
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-main style="background-color: #f3f3f3">内容部分</el-main>
+      <el-main style="background-color: #f3f3f3">
+        <!-- 在内容显示区域设置嵌套路由  点击左侧导航栏跳转的页面将会显示在这里 -->
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -51,7 +61,7 @@ export default {
       avatar:
         "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1589955332&di=d294de48ed1922c058c3a34be5a9c873&src=http://b-ssl.duitang.com/uploads/item/201808/05/20180805160830_tvznv.jpg",
       username: "至安",
-      isCollapse: false
+      isCollapse: false // 是否收起折叠菜单，默认不收起
     };
   },
   methods: {
