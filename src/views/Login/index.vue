@@ -72,8 +72,8 @@ export default {
       codeURL: process.env.VUE_APP_BASEURL + "/captcha?type=login",
       // 表单模型对象
       loginForm: {
-        phone: "18511111111",
-        password: "12345678",
+        phone: "15611111111",
+        password: "cindy520",
         code: "",
         isChecked: true //是否勾选用户协议  并且名字必须与对应校验规则的名字保持一致
       },

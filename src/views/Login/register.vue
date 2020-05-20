@@ -1,12 +1,12 @@
 <template>
   <div class="register">
-    <el-dialog title="注册" width="600px" center :visible.sync="dialogVisible">
+    <el-dialog width="600px" center :visible.sync="dialogVisible">
       <div slot="title" class="title">用户注册</div>
       <!-- 中间form表单部分 -->
       <el-form :model="registerForm" :rules="rules" ref="registerFormRef" label-width="100px">
         <!-- 上传用户头像 -->
-        <el-form-item prop="avatar" label="头像">
-          <!-- action是element封装的用来发送请求上传头像的方法
+        <el-form-item prop="avatar" label="头像" ref="uploadAvatar">
+          <!-- action是element封装的用来发送请求上传头像的方法(底层基于FormData)
             需要设置name属性的值为 对应接口的提交参数   类似FormData提交参数
           -->
           <el-upload
@@ -46,7 +46,8 @@
         <el-form-item prop="rcode" label="验证码">
           <el-row>
             <el-col :span="17">
-              <el-input v-model="registerForm.rcode"></el-input>
+              <!-- 数字类型的验证需要在 v-model 处加上 .number 的修饰符，这是 Vue 自身提供的用于将绑定值(纯数字）转化为 number 类型的修饰符。 -->
+              <el-input v-model.number="registerForm.rcode"></el-input>
             </el-col>
             <el-col style="margin-left:15px" :span="6">
               <el-button @click="getCaptcha" style="width:100%;">获取验证码</el-button>
@@ -94,8 +95,8 @@ export default {
         avatar: [
           {
             required: true,
-            message: "必须上传头像",
-            trigger: "change"
+            message: "必须上传头像"
+            // trigger: "change"
           }
         ],
         email: [
@@ -161,11 +162,11 @@ export default {
               if (!value) {
                 return callback(new Error("验证码不能为空"));
               }
-              if (value.length != 4) {
-                return callback(new Error("验证码长度为 4 个字符"));
-              }
               if (!Number.isInteger(value)) {
                 return callback(new Error("验证码必须为数字"));
+              }
+              if (value.toString().length != 4) {
+                return callback(new Error("验证码长度为4个字符"));
               }
               callback();
             },
@@ -229,6 +230,8 @@ export default {
       this.imageUrl = process.env.VUE_APP_BASEURL + "/" + res.data.file_path;
       // 给registerForm中的avatar模型赋值
       this.registerForm.avatar = res.data.file_path;
+      // 上传头像成功之后关闭校验  注意：ref属性要给 el-form-item 设置
+      this.$refs.uploadAvatar.clearValidate();
     },
     // 完成注册
     submit() {
