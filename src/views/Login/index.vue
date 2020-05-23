@@ -49,7 +49,7 @@
     </div>
     <!-- 使用register子组件 -->
     <!-- 1.通过ref属性方式进行父传子传值 -->
-    <register ref="registerRef"></register>
+    <Register ref="registerRef"></Register>
     <!-- 1.通过props方式进行父传子传值 -->
     <!-- <register :isShow="isShow"></register> -->
   </div>
@@ -59,12 +59,12 @@
 // 按需导入 操作token的方法
 import { setToken } from "@/utils/token.js";
 // 导入register子组件
-import register from "./register";
+import Register from "./register";
 export default {
   name: "Login",
   components: {
-    // 注册register子组件
-    register
+    // 注册Register子组件
+    Register
   },
   data() {
     return {
@@ -214,7 +214,7 @@ export default {
           data: this.loginForm
         });
 
-        console.log(res);
+        // console.log(res);
         if (res.data.code == 200) {
           // 登录成功 使用element的成功提示
           // this.$message.success("登录成功");

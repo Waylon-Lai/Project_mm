@@ -13,11 +13,12 @@
       </div>
     </el-header>
     <el-container>
+      <!-- 必须要给侧边栏设置 width="auto" 才会跟随折叠菜单一起被折叠 -->
       <el-aside width="auto" class="aside">
         <!-- router: 是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 -->
         <el-menu
           :router="true"
-          default-active="/layout/enterprise"
+          :default-active="defaultActive"
           class="el-menu-vertical-demo"
           :collapse="isCollapse"
         >
@@ -61,8 +62,16 @@ export default {
       avatar:
         "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1589955332&di=d294de48ed1922c058c3a34be5a9c873&src=http://b-ssl.duitang.com/uploads/item/201808/05/20180805160830_tvznv.jpg",
       username: "至安",
-      isCollapse: false // 是否收起折叠菜单，默认不收起
+      isCollapse: false, // 是否收起折叠菜单，默认不收起
+      defaultActive: "" //左侧导航栏默认选中的栏目（高亮提示）
     };
+  },
+  created() {
+    // 一进来页面就调用获取用户信息的方法
+    this.getUserInfo();
+    // console.log(this.$route);
+    // 根据实时路由地址 赋值给左侧导航栏默认选中的栏目
+    this.defaultActive = this.$route.fullPath;
   },
   methods: {
     // 获取用户信息
@@ -112,10 +121,6 @@ export default {
           });
         });
     }
-  },
-  created() {
-    // 一进来页面就调用获取用户信息的方法
-    this.getUserInfo();
   }
 };
 </script>

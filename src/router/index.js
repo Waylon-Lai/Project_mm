@@ -27,6 +27,12 @@ let router = new VueRouter({
             component: Login
         },
         {
+            //方法一： 设置一进入layout页面直接跳转到子组件user中
+            // 注意点：一定要写在 layout的路由配置前面
+            path: '/layout',
+            redirect: '/layout/user'
+        },
+        {
             path: '/layout',
             component: Layout,
             // 设置 嵌套路由 
@@ -59,6 +65,11 @@ router.beforeEach((to, from, next) => {
     } else {
         const token = getToken(); //查看本地有没有用户登录后设置在本地的token值  核实用户有没有权限访问对应页面
         if (token) {
+            //方法二： 设置一进入layout页面直接跳转到子组件user中
+            // if (to.fullPath == '/layout') {
+            //     next('/layout/user');
+            //     return;
+            // }
             next(); //有token值  允许访问
         } else {
             next('/login');//没有token值  打回登录页面

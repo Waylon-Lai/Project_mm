@@ -123,7 +123,7 @@ export default {
               if (!value) {
                 return callback(new Error("手机号不能为空"));
               }
-              // 邮箱的正则表达式
+              // 手机号的正则表达式
               const reg = /^1[345678][0-9]{9}$/;
               if (!reg.test(value)) {
                 return callback(new Error("输入的手机号不合法"));
