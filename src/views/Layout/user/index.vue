@@ -41,7 +41,7 @@
         <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column prop="role" label="角色"></el-table-column>
         <el-table-column prop="remark" label="备注"></el-table-column>
-        <!-- 使用作用域插槽自定义 列 不再使用 prop  -->
+        <!-- 使用作用域插槽自定义 列 不再使用 prop (不再把数据交给table管理，自已管理使用)  -->
         <el-table-column label="状态">
           <template slot-scope="scope">
             <!-- scope.row 相当于 userList 数组中的每一项 -->
@@ -225,7 +225,7 @@ export default {
       // };
       // b.调用el-form的方法 clearValidate 清除校验
       // this.$refs.userEditRef.$refs.userFormRef.clearValidate();
-      // 出现了报错：Cannot read property 'userFormRef' of undefined"
+      // 出现了报错：Cannot read property 'clearValidate' of undefined
       // 原因是：dialog弹出框form表单部分是懒加载的，也就是其dom结构其实并还没有渲染出来
       // 只有当 第一次 把dialogVisible的值改为true 才会真正开始渲染
       // 而渲染是需要一定时间的 可能dom结构还没渲染完毕就开始执行代码了，所以获取不到form表单元素 也就无法使用他的方法了

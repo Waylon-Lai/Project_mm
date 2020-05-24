@@ -106,6 +106,18 @@ export default {
       }
     };
   },
+  // watch: {
+  //   dialogVisible(newValue) {
+  //     if (newValue) {
+  //       this.$nextTick(() => {
+  //         this.$refs.userFormRef.clearValidate();
+  //       });
+  //     }
+  //     // if (!newvalue) {
+  //     //   this.$refs.userFormRef.clearValidate();
+  //     // }
+  //   }
+  // },
   methods: {
     submit() {
       //   最后一次校验
@@ -147,7 +159,11 @@ export default {
           // 关闭会话框
           this.dialogVisible = false;
           // 调用父组件的方法 刷新用户列表
-          this.$parent.search();
+          if (this.mode == "add") {
+            this.$parent.search(); //回到第一页
+          } else {
+            this.$parent.getUserList(); //停留在当前页
+          }
         } else {
           this.$message.error(res.data.message);
         }
