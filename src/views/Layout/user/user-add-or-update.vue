@@ -108,12 +108,18 @@ export default {
   },
   // watch: {
   //   dialogVisible(newValue) {
+  //     // 方法一：会话框弹出时清除校验
   //     if (newValue) {
   //       this.$nextTick(() => {
   //         this.$refs.userFormRef.clearValidate();
   //       });
   //     }
+  //     //方法二：会话框关闭后清除校验
   //     // if (!newvalue) {
+  //     //   //当校验结果中有change触发的时候  不能用这种方法
+  //     //   //因为点关闭的时候虽然把校验结果重置了 但是表单值还在 然后又点新增按钮
+  //     //   //相当于把表单的值重新赋值为空串 触发了change事件的  所以弹出校验
+  //     //   //把input置空我们是没有触发blur事件的  所以校验结果没弹出来
   //     //   this.$refs.userFormRef.clearValidate();
   //     // }
   //   }

@@ -91,7 +91,7 @@ export default {
         eid: "", // 企业编号
         name: "", // 企业名称
         username: "", // 创建者
-        status: "" // 状态 状态 1（启用） 0（禁用）
+        status: "" //  状态 1（启用） 0（禁用）
       },
       page: 1, // 查询时候的当前页码
       limit: 2, // 查询时候的页容量(每页查询多少条)
@@ -128,7 +128,6 @@ export default {
     },
     // 清除功能
     clear() {
-      console.log(1);
       //注意点：使用resetFields需要给每个表单项el-form-item 设置 prop属性
       this.$refs.enterpriseFormRef.resetFields();
       this.search(); // 重新搜索第一页的用户列表
