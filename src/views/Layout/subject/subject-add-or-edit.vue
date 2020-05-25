@@ -1,22 +1,23 @@
 <template>
-  <div class="enterpriseEdit">
+  <div class="subjectEdit">
     <el-dialog center :visible.sync="dialogVisible" width="600px">
-      <div slot="title" class="title">{{mode == 'add' ? '新增企业' : '编辑企业'}}</div>
-      <el-form :rules="rules" :model="enterpriseForm" ref="enterpriseFormRef" label-width="80px">
-        <el-form-item prop="eid" label="企业编号">
-          <el-input v-model="enterpriseForm.eid"></el-input>
+      <div slot="title" class="title">{{mode == 'add' ? '新增学科' : '编辑学科'}}</div>
+      <!-- 表单部分 -->
+      <el-form :rules="rules" :model="subjectForm" ref="subjectFormRef" label-width="80px">
+        <el-form-item prop="rid" label="学科编号">
+          <el-input v-model="subjectForm.rid"></el-input>
         </el-form-item>
-        <el-form-item prop="name" label="企业名称">
-          <el-input v-model="enterpriseForm.name"></el-input>
+        <el-form-item prop="name" label="学科名称">
+          <el-input v-model="subjectForm.name"></el-input>
         </el-form-item>
-        <el-form-item prop="short_name" label="企业简称">
-          <el-input v-model="enterpriseForm.short_name"></el-input>
+        <el-form-item prop="short_name" label="学科简称">
+          <el-input v-model="subjectForm.short_name"></el-input>
         </el-form-item>
-        <el-form-item prop="intro" label="企业简介">
-          <el-input v-model="enterpriseForm.intro"></el-input>
+        <el-form-item prop="intro" label="学科简介">
+          <el-input v-model="subjectForm.intro"></el-input>
         </el-form-item>
-        <el-form-item prop="remark" label="企业备注">
-          <el-input v-model="enterpriseForm.remark"></el-input>
+        <el-form-item prop="remark" label="学科备注">
+          <el-input v-model="subjectForm.remark"></el-input>
         </el-form-item>
       </el-form>
 
@@ -30,51 +31,51 @@
 
 <script>
 export default {
-  name: "EnterpriseEdit",
+  name: "SubjectEdit",
   data() {
     return {
       dialogVisible: false,
       mode: "",
-      enterpriseForm: {
-        eid: "", //企业编号
-        name: "", //企业名称
-        short_name: "", //企业简称
-        intro: "", //企业简介
-        remark: "" //备注
+      subjectForm: {
+        rid: "", //学科编号
+        name: "", //学科名称
+        short_name: "", //学科简称
+        intro: "", //学科简介
+        remark: "" //学科备注
       },
       rules: {
-        eid: [
+        rid: [
           {
             required: true,
-            message: "企业编号不能为空",
+            message: "学科编号不能为空",
             trigger: "blur"
           }
         ],
         name: [
           {
             required: true,
-            message: "企业名称不能为空",
+            message: "学科名称不能为空",
             trigger: "blur"
           }
         ],
         short_name: [
           {
             required: true,
-            message: "企业简称不能为空",
+            message: "学科简称不能为空",
             trigger: "blur"
           }
         ],
         intro: [
           {
             required: true,
-            message: "企业简介不能为空",
+            message: "学科简介不能为空",
             trigger: "blur"
           }
         ],
         remark: [
           {
             required: true,
-            message: "企业备注不能为空",
+            message: "学科备注不能为空",
             trigger: "blur"
           }
         ]
@@ -82,53 +83,53 @@ export default {
     };
   },
   watch: {
-    // 通过watch监听dialogVisible值的变化来完成清除form的校验
     dialogVisible(newValue) {
-      // 方法一：会话框弹出时清除校验
+      //   监听 dialogVisible 的变化  清空表单校验
       //   if (newValue) {
       //     this.$nextTick(() => {
-      //       //   等dom结构加载完再执行回调
-      //       this.$refs.enterpriseFormRef.clearValidate();
+      //       this.$refs.subjectFormRef.clearValidate();
       //     });
       //   }
-      //   方法二：会话框关闭后清除校验
       if (!newValue) {
-        // 此时dom结构已加载完  不用再放在回调里面执行
-        this.$refs.enterpriseFormRef.clearValidate();
+        this.$refs.subjectFormRef.clearValidate();
       }
     }
   },
   methods: {
     submit() {
-      this.$refs.enterpriseFormRef.validate(async valid => {
+      this.$refs.subjectFormRef.validate(async valid => {
         if (!valid) return;
         let res = null;
         if (this.mode == "add") {
-          //新增企业
+          // 新增学科
           res = await this.$axios({
             method: "post",
-            url: "/enterprise/add",
-            data: this.enterpriseForm
+            url: "/subject/add",
+            data: this.subjectForm
           });
         } else {
-          //编辑企业
+          // 编辑学科
           res = await this.$axios({
             method: "post",
-            url: "/enterprise/edit",
-            data: this.enterpriseForm
+            url: "/subject/edit",
+            data: this.subjectForm
           });
         }
         if (res.data.code == 200) {
           this.$message({
-            message: this.mode == "add" ? "新增企业成功" : "编辑企业成功",
+            message: this.mode == "add" ? "新增成功" : "编辑成功",
             type: "success"
           });
+          // 关闭会话框
           this.dialogVisible = false;
+          // 调用父组件对应的方法更新数据
           if (this.mode == "add") {
             this.$parent.search();
           } else {
-            this.$parent.getEnterpriseList();
+            this.$parent.getSubjectList();
           }
+        } else {
+          this.$message.error(res.data.message);
         }
       });
     }
@@ -137,7 +138,7 @@ export default {
 </script>
 
 <style lang="less">
-.enterpriseEdit {
+.subjectEdit {
   .title {
     background: linear-gradient(270deg, #01c6fa, #1493fa);
     height: 53px;

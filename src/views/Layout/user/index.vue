@@ -191,9 +191,11 @@ export default {
               type: "success",
               message: "删除成功!"
             });
-            if (this.total / this.limit < this.page) {
-              // 说明当前页已经删除最后一条数据 没有数据了 那么当前页应该 -1
-              this.page--;
+            // console.log(this.page);
+            // console.log(this.userList.length);
+            if (this.page > 1 && this.userList.length == 1) {
+              // 此时删除的是当前页的最后一条数据  并且页数大于一页
+              this.page--; //当前页没有数据了 那么应该-1
               this.getUserList(); //重新获取删除后的当前页对应条件的用户列表
               return;
             }

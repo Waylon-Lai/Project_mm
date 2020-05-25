@@ -176,14 +176,14 @@ export default {
               id
             }
           });
-          console.log(1);
           if (res.data.code == 200) {
             this.$message({
               type: "success",
               message: "删除成功!"
             });
-            if (this.total / this.limit < this.page) {
-              this.page--;
+            if (this.page > 1 && this.enterpriseList.length == 1) {
+              // 此时删除的是当前页的最后一条数据  并且页数大于一页
+              this.page--; //当前页没有数据了 那么应该-1
               this.getEnterpriseList();
               return;
             }
