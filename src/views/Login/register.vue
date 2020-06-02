@@ -6,7 +6,7 @@
       <el-form :model="registerForm" :rules="rules" ref="registerFormRef" label-width="100px">
         <!-- 上传用户头像 -->
         <el-form-item prop="avatar" label="头像" ref="uploadAvatar">
-          <!-- action是element封装的用来发送请求上传头像的方法(底层基于FormData)
+          <!-- action是elementUI封装的用来发送请求上传头像的方法(底层基于FormData)
             需要设置name属性的值为 对应接口的提交参数   类似FormData提交参数
           -->
           <el-upload

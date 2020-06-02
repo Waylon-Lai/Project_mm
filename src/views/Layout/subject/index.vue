@@ -95,7 +95,7 @@ export default {
       page: 1, // 页码
       limit: 2, // 页容量
       subjectList: [], // 学科列表数据
-      total: 0 // 总条数
+      total: 0 // 总条数 必须为数值类型
     };
   },
   created() {
@@ -179,7 +179,6 @@ export default {
               message: "删除成功!"
             });
             if (this.page > 1 && this.subjectList.length == 1) {
-              console.log(2);
               this.page--;
               this.getSubjectList();
               return;

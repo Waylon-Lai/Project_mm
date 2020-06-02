@@ -53,11 +53,20 @@
           <template slot-scope="scope">
             <!-- 调用编辑方法的时候把 每一项（row）的数据都传过去 -->
             <el-button @click="editUser(scope.row)" type="primary">编辑</el-button>
-            <el-button
+            <!-- <el-button
               @click="changeStatus(scope.row.id)"
               :type="scope.row.status == 0 ? 'success' : 'info'"
+            >{{scope.row.status == 0 ? '启用' : '禁用'}}</el-button>-->
+
+            <!-- 调用混入对象中的方法完成更改状态功能 -->
+            <el-button
+              @click="changeStatus('/user/status',scope.row.id,'getUserList')"
+              :type="scope.row.status == 0 ? 'success' : 'info'"
             >{{scope.row.status == 0 ? '启用' : '禁用'}}</el-button>
-            <el-button @click="deleteUser(scope.row.id)">删除</el-button>
+            <!-- <el-button @click="deleteUser(scope.row.id)">删除</el-button> -->
+
+            <!-- 调用混入对象中的方法完成删除功能 -->
+            <el-button @click="del('/user/remove',scope.row.id,'getUserList')">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -84,12 +93,15 @@
 <script>
 // 导入子组件
 import UserEdit from "./user-add-or-update";
+// 导入公共的混入对象
+import common from "@/mixins/common";
 export default {
   name: "UserList",
   // 注册子组件
   components: {
     UserEdit
   },
+  mixins: [common], //注册混入对象
   data() {
     return {
       searchForm: {
@@ -154,61 +166,64 @@ export default {
       this.getUserList(); //重新获取当前页对应条件的用户列表
     },
     // 改变用户的状态
-    async changeStatus(id) {
-      const res = await this.$axios({
-        method: "post",
-        url: "/user/status",
-        data: {
-          id
-        }
-      });
-      // console.log(res.data);
-      if (res.data.code == 200) {
-        this.$message({
-          message: "更改状态成功",
-          type: "success"
-        });
-        this.getUserList(); //重新获取更改后的当前页对应条件的用户列表
-      }
-    },
+    // async changeStatus(id) {
+    //   const res = await this.$axios({
+    //     method: "post",
+    //     url: "/user/status",
+    //     data: {
+    //       id
+    //     }
+    //   });
+    //   // console.log(res.data);
+    //   if (res.data.code == 200) {
+    //     this.$message({
+    //       message: "更改状态成功",
+    //       type: "success"
+    //     });
+    //     this.getUserList(); //重新获取更改后的当前页对应条件的用户列表
+    //   }
+    // },
     // 删除用户
-    deleteUser(id) {
-      this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(async () => {
-          const res = await this.$axios({
-            method: "post",
-            url: "/user/remove",
-            data: {
-              id
-            }
-          });
-          if (res.data.code == 200) {
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            // console.log(this.page);
-            // console.log(this.userList.length);
-            if (this.page > 1 && this.userList.length == 1) {
-              // 此时删除的是当前页的最后一条数据  并且页数大于一页
-              this.page--; //当前页没有数据了 那么应该-1
-              this.getUserList(); //重新获取删除后的当前页对应条件的用户列表
-              return;
-            }
-            this.getUserList(); //重新获取删除后的当前页对应条件的用户列表
-          }
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
+    // deleteUser(id) {
+    //   this.$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+    //     confirmButtonText: "确定",
+    //     cancelButtonText: "取消",
+    //     type: "warning"
+    //   })
+    //     .then(async () => {
+    //       const res = await this.$axios({
+    //         method: "post",
+    //         url: "/user/remove",
+    //         data: {
+    //           id
+    //         }
+    //       });
+    //       if (res.data.code == 200) {
+    //         this.$message({
+    //           type: "success",
+    //           message: "删除成功!"
+    //         });
+    //         if (this.page > 1 && this.userList.length == 1) {
+    //           // 此时删除的是当前页的最后一条数据  并且页数大于一页
+    //           this.page--; //当前页没有数据了 那么应该-1
+    //           // this.getUserList(); //重新获取删除后的当前页对应条件的用户列表
+
+    //           // 我们还可以用vue的底层方法options，来获取到我们自定义的方法并调用。
+    //           // 但是这个时候调用方法，this指向会发生很大的变化，会很影响我们的预期，我们可以给方法指定this
+    //           this.$options.methods["getUserList"].call(this);
+    //           return;
+    //         }
+    //         // this.getUserList(); //重新获取删除后的当前页对应条件的用户列表
+    //         this.$options.methods["getUserList"].call(this);
+    //       }
+    //     })
+    //     .catch(() => {
+    //       this.$message({
+    //         type: "info",
+    //         message: "已取消删除"
+    //       });
+    //     });
+    // },
     // 新增用户
     addUser() {
       // 传值给子组件
