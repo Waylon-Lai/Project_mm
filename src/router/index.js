@@ -39,11 +39,53 @@ let router = new VueRouter({
             // 要在嵌套的出口中渲染组件，需要在 VueRouter 的参数中使用 children 配置：
             // 要注意，以 / 开头的嵌套路径会被当作根路径。所以不需要 /
             children: [
-                { path: 'chart', component: Chart },
-                { path: 'enterprise', component: Enterprise },
-                { path: 'question', component: Question },
-                { path: 'subject', component: Subject },
-                { path: 'user', component: User },
+                {
+                    path: 'chart', component: Chart,
+                    // 路由元信息  本项目的后台没有返回对应用户角色的权限列表 
+                    // 我们在路由配置的时候，给每个路由通过配置元数据的方式，来简单控制下用户权限
+                    meta: {
+                        roles: ['超级管理员', '管理员', '老师'], //可以访问这个路由的用户角色
+                        icon: "el-icon-pie-chart",
+                        fullPath: "/layout/chart",
+                        title: "数据预览",
+                    }
+                },
+                {
+                    path: 'enterprise', component: Enterprise,
+                    meta: {
+                        roles: ["超级管理员", "管理员", "老师"],
+                        icon: "el-icon-office-building",
+                        fullPath: "/layout/enterprise",
+                        title: "企业列表",
+                    }
+                },
+                {
+                    path: 'question', component: Question,
+                    meta: {
+                        roles: ["超级管理员", "管理员", "老师", "学生"],
+                        icon: "el-icon-edit-outline",
+                        fullPath: "/layout/question",
+                        title: "题库列表",
+                    }
+                },
+                {
+                    path: 'subject', component: Subject,
+                    meta: {
+                        roles: ["超级管理员", "管理员", "老师"],
+                        icon: "el-icon-notebook-2",
+                        fullPath: "/layout/subject",
+                        title: "学科列表",
+                    }
+                },
+                {
+                    path: 'user', component: User,
+                    meta: {
+                        roles: ["超级管理员", "管理员", "老师"],
+                        icon: "el-icon-user",
+                        fullPath: "/layout/user",
+                        title: "用户列表",
+                    }
+                },
             ]
         }
     ]
@@ -75,6 +117,14 @@ router.beforeEach((to, from, next) => {
             next('/login');//没有token值  打回登录页面
         }
     }
+});
+// 全局后置钩子
+// 可在这里设置路由跳转后的内容
+router.afterEach((to, from) => {
+    // console.log('to:', to);
+    // console.log('from:', from);
+    // 设置页面标题为前往路由中配置的元信息中的title 或者 取默认值'黑马面面后台管理系统'
+    document.title = to.meta.title || '黑马面面后台管理系统';
 })
 
 // 暴露出去

@@ -7,8 +7,8 @@
         <span class="title">黑马面面</span>
       </div>
       <div class="right">
-        <!-- <img :src="avatar" alt />
-        <span class="name">{{ username }} 欢迎您</span>-->
+        <!-- <img :src="avatar" alt /> -->
+        <!-- <span class="name">{{ username }} 欢迎您</span> -->
         <!-- 使用store仓库中的数据 
         在调用仓库中定义在getters里面的方法时，不能加（）-->
         <img :src="BASEURL + '/' + $store.getters.getUserInfo.avatar" alt />
@@ -27,7 +27,20 @@
           :collapse="isCollapse"
         >
           <!-- 在 el-menu-item 的index 属性值中设置要跳转的路由 -->
-          <el-menu-item index="/layout/chart">
+          <!-- 利用路由通过配置的元信息，来简单控制下用户权限(通过v-show)
+          这里遍历的是$router.options.routes[3].children 但在实际开发中遍历的是后台返回的角色对应的权限列表数组
+          -->
+          <el-menu-item
+            v-show="item.meta.roles.includes($store.getters.getUserInfo.role)"
+            v-for="item in $router.options.routes[3].children"
+            :key="item.path"
+            :index="item.meta.fullPath"
+          >
+            <i :class="item.meta.icon"></i>
+            <span slot="title">{{item.meta.title}}</span>
+          </el-menu-item>
+
+          <!-- <el-menu-item index="/layout/chart">
             <i class="el-icon-pie-chart"></i>
             <span slot="title">数据预览</span>
           </el-menu-item>
@@ -46,7 +59,7 @@
           <el-menu-item index="/layout/subject">
             <i class="el-icon-notebook-2"></i>
             <span slot="title">学科列表</span>
-          </el-menu-item>
+          </el-menu-item>-->
         </el-menu>
       </el-aside>
       <el-main style="background-color: #f3f3f3">
@@ -77,6 +90,7 @@ export default {
     // console.log(this.$route);
     // 根据实时路由地址 赋值给左侧导航栏默认选中的栏目
     this.defaultActive = this.$route.fullPath;
+    // console.log(this.$router);
   },
   methods: {
     // 获取用户信息
@@ -91,8 +105,8 @@ export default {
       });
       // console.log(res);
       if (res.data.code == 200) {
-        this.username = res.data.data.username;
-        this.avatar = process.env.VUE_APP_BASEURL + "/" + res.data.data.avatar;
+        // this.username = res.data.data.username;
+        // this.avatar = process.env.VUE_APP_BASEURL + "/" + res.data.data.avatar;
 
         // 把获取到的数据存在使用vuex创建的仓库中 以供其他组件使用
         // 'setUserInfo'为store仓库中定义在mutations里面的方法
