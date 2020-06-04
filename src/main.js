@@ -17,9 +17,12 @@ import '@/utils/request.js'
 
 // import router from '@/router/index.js'
 // 只要该文件夹里面的子文件名是 index.xxx 形式的，可以省略不写
-import router from '@/router'
+import router from '@/router' //导入路由配置的router实例
+import store from '@/store' //导入Vuex的store实例
 
 new Vue({
   render: h => h(App),
-  router
+  // 注入到Vue实例中
+  router,
+  store
 }).$mount('#app')

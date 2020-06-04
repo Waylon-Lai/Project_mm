@@ -77,4 +77,5 @@ router.beforeEach((to, from, next) => {
     }
 })
 
+// 暴露出去
 export default router;

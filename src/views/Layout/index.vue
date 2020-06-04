@@ -7,8 +7,12 @@
         <span class="title">黑马面面</span>
       </div>
       <div class="right">
-        <img :src="avatar" alt />
-        <span class="name">{{ username }} 欢迎您</span>
+        <!-- <img :src="avatar" alt />
+        <span class="name">{{ username }} 欢迎您</span>-->
+        <!-- 使用store仓库中的数据 
+        在调用仓库中定义在getters里面的方法时，不能加（）-->
+        <img :src="BASEURL + '/' + $store.getters.getUserInfo.avatar" alt />
+        <span class="name">{{ $store.getters.getUserInfo.username }} 欢迎您</span>
         <el-button type="primary" @click="logout">退出</el-button>
       </div>
     </el-header>
@@ -59,9 +63,10 @@ export default {
   name: "Layout",
   data() {
     return {
-      avatar:
-        "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1589955332&di=d294de48ed1922c058c3a34be5a9c873&src=http://b-ssl.duitang.com/uploads/item/201808/05/20180805160830_tvznv.jpg",
-      username: "至安",
+      // avatar:
+      //   "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1589955332&di=d294de48ed1922c058c3a34be5a9c873&src=http://b-ssl.duitang.com/uploads/item/201808/05/20180805160830_tvznv.jpg",
+      // username: "至安",
+      BASEURL: process.env.VUE_APP_BASEURL,
       isCollapse: false, // 是否收起折叠菜单，默认不收起
       defaultActive: "" //左侧导航栏默认选中的栏目（高亮提示）
     };
@@ -88,6 +93,10 @@ export default {
       if (res.data.code == 200) {
         this.username = res.data.data.username;
         this.avatar = process.env.VUE_APP_BASEURL + "/" + res.data.data.avatar;
+
+        // 把获取到的数据存在使用vuex创建的仓库中 以供其他组件使用
+        // 'setUserInfo'为store仓库中定义在mutations里面的方法
+        this.$store.commit("setUserInfo", res.data.data);
       }
     },
     // 登出功能
