@@ -345,8 +345,8 @@ export default {
         step: "", // 阶段
         enterprise: "", // 企业id
         city: [], // 城市
-        type: "1", // 题型 并设置默认选中的值
-        difficulty: "1", // 难度 并设置默认选中的值
+        type: 1, // 题型 并设置默认选中的值
+        difficulty: 1, // 难度 并设置默认选中的值
         title: "", // 标题
         single_select_answer: "", // 单选答案
         multiple_select_answer: [], // 多选答案
