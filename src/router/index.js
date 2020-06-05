@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 // import Subject from '@/views/layout/subject'
 // import User from '@/views/layout/user'
 
-// 要提高首页的加载效率 需要配置路由组件的懒加载 
+// 要提高首页的加载效率 git需要配置路由组件的懒加载 
 // 只需要在导入路由组件的时候将其定义一个能够被 Webpack 自动代码分割的异步组件即可
 const Login = () => import('@/views/login/index.vue')
 const Layout = () => import('@/views/layout')
