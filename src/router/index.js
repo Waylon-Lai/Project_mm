@@ -5,15 +5,25 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter);
 
 // 导入路由组件
-import Login from '@/views/login/index.vue'
-// 只要该文件夹里面的子文件名是 index.xxx 形式的，可以省略不写
-// 组件名首字母一般大写
-import Layout from '@/views/layout'
-import Chart from '@/views/layout/chart'
-import Enterprise from '@/views/layout/enterprise'
-import Question from '@/views/layout/question'
-import Subject from '@/views/layout/subject'
-import User from '@/views/layout/user'
+// import Login from '@/views/login/index.vue'
+// // 只要该文件夹里面的子文件名是 index.xxx 形式的，可以省略不写
+// // 组件名首字母一般大写
+// import Layout from '@/views/layout'
+// import Chart from '@/views/layout/chart'
+// import Enterprise from '@/views/layout/enterprise'
+// import Question from '@/views/layout/question'
+// import Subject from '@/views/layout/subject'
+// import User from '@/views/layout/user'
+
+// 要提高首页的加载效率 需要配置路由组件的懒加载 
+// 只需要在导入路由组件的时候将其定义一个能够被 Webpack 自动代码分割的异步组件即可
+const Login = () => import('@/views/login/index.vue')
+const Layout = () => import('@/views/layout')
+const Chart = () => import('@/views/layout/chart')
+const Enterprise = () => import('@/views/layout/enterprise')
+const Question = () => import('@/views/layout/question')
+const Subject = () => import('@/views/layout/subject')
+const User = () => import('@/views/layout/user')
 
 let router = new VueRouter({
     routes: [
