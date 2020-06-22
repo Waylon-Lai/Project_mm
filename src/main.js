@@ -4,7 +4,7 @@ import App from './App.vue'
 // 导入axios插件
 // import axios from 'axios'
 
-// 在main.js里面也可以导入全局样式less/css文件
+// 在main.js里面也可以导入全局样式less/css文件 webpack会让main.js 这个入口文件和 .less 建立依赖关系
 // import '@/styles/base.less' //@代表src vue脚手架中 @ === src 
 
 Vue.config.productionTip = false

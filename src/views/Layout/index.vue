@@ -11,7 +11,10 @@
         <!-- <span class="name">{{ username }} 欢迎您</span> -->
         <!-- 使用store仓库中的数据 
         在调用仓库中定义在getters里面的方法时，不能加（）-->
-        <img :src="BASEURL + '/' + $store.getters.getUserInfo.avatar" alt />
+        <img
+          :src="$store.getters.getUserInfo.avatar ? BASEURL + '/' + $store.getters.getUserInfo.avatar : 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1589955332&di=d294de48ed1922c058c3a34be5a9c873&src=http://b-ssl.duitang.com/uploads/item/201808/05/20180805160830_tvznv.jpg'"
+          alt
+        />
         <span class="name">{{ $store.getters.getUserInfo.username }} 欢迎您</span>
         <el-button type="primary" @click="logout">退出</el-button>
       </div>

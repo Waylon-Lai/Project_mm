@@ -124,13 +124,18 @@ router.beforeEach((to, from, next) => {
             // }
             next(); //有token值  允许访问
         } else {
+            // alert('请登录');
+            Vue.prototype.$message({
+                message: '尚未登录，请登录！',
+                type: 'warning'
+            });
             next('/login');//没有token值  打回登录页面
         }
     }
 });
 // 全局后置钩子
 // 可在这里设置路由跳转后的内容
-router.afterEach((to, from) => {
+router.afterEach((to) => {
     // console.log('to:', to);
     // console.log('from:', from);
     // 设置页面标题为前往路由中配置的元信息中的title 或者 取默认值'黑马面面后台管理系统'
